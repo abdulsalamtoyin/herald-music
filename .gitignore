@@ -1,0 +1,22 @@
+# macOS
+.DS_Store
+
+# Editors
+.vscode/
+.idea/
+*.swp
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Deps (only used by optional dev tools)
+node_modules/
+
+# Build / cache
+.cache/
+dist/
+build/
+.netlify/
+.vercel/

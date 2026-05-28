@@ -1,0 +1,15 @@
+{
+  "name": "herald-music",
+  "version": "1.0.0",
+  "description": "The Herald Music — official site. A static, deploy-anywhere replica.",
+  "private": true,
+  "scripts": {
+    "dev": "npx --yes serve . -l 5173",
+    "start": "npx --yes serve . -l 5173",
+    "build": "echo 'Static site — no build step. Deploy the folder as-is.'",
+    "format": "npx --yes prettier --write \"**/*.{html,css,js,json,md}\""
+  },
+  "keywords": ["worship", "music", "static-site", "the-herald-music"],
+  "author": "The Herald Music",
+  "license": "MIT"
+}
