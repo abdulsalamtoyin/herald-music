@@ -1,6 +1,5 @@
 # The Herald Music — Replica Site
 
-A static, single-page replica of [theheraldmusic.lovable.app](https://theheraldmusic.lovable.app/).
 Pure HTML / CSS / vanilla JS — no framework, no build step, ready to deploy
 to any static host.
 
