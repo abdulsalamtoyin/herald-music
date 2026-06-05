@@ -745,16 +745,29 @@ p.lead { font-size: 1.1rem; color: var(--text); max-width: 60ch; margin: 0 auto;
 .track-card.tilting .card-glare { opacity: 1; }
 
 /* ---------- Depth panels ---------- */
+@keyframes float-soft {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-10px); }
+}
 .pillar,
 .podcast-card,
 .devotional,
 .form-card {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
+.pillar,
+.devotional {
+  animation: float-soft 6s ease-in-out infinite;
+}
+.pillar:nth-child(2)  { animation-delay: -2s; }
+.pillar:nth-child(3)  { animation-delay: -4s; }
+.devotional:nth-child(2) { animation-delay: -2s; }
+.devotional:nth-child(3) { animation-delay: -4s; }
 .pillar:hover,
 .devotional:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 24px 48px -24px rgba(0, 0, 0, 0.7);
+  transform: translateY(-10px) scale(1.03);
+  box-shadow: 0 28px 56px -24px rgba(0, 0, 0, 0.75);
+  animation-play-state: paused;
 }
 .form-card {
   backdrop-filter: blur(6px);

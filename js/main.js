@@ -58,11 +58,11 @@ function wireTilt() {
       const r = card.getBoundingClientRect();
       const px = (e.clientX - r.left) / r.width;   // 0..1
       const py = (e.clientY - r.top) / r.height;   // 0..1
-      const rotY = (px - 0.5) * 12;                // deg
-      const rotX = (0.5 - py) * 12;                // deg
+      const rotY = (px - 0.5) * 20;                // deg
+      const rotX = (0.5 - py) * 20;                // deg
       card.classList.add('tilting');
       card.style.transform =
-        `rotateX(${rotX}deg) rotateY(${rotY}deg) translateZ(8px)`;
+        `rotateX(${rotX}deg) rotateY(${rotY}deg) translateZ(18px) scale(1.04)`;
       if (glare) {
         glare.style.setProperty('--gx', `${px * 100}%`);
         glare.style.setProperty('--gy', `${py * 100}%`);

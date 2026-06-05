@@ -153,16 +153,23 @@ async function init() {
   function animate() {
     if (!running || !onScreen) return;
 
-    orb.rotation.y += 0.0035;
-    const pulse = 1 + Math.sin(Date.now() * 0.0012) * 0.03;
-    orbBody.scale.setScalar(pulse);
+    const t = Date.now();
+    orb.rotation.y += 0.006;
+    // Inner cross shimmers and counter-rotates for life.
+    cross.rotation.z = Math.sin(t * 0.0009) * 0.18;
+    cross.rotation.y -= 0.004;
+    // Orb breathes; the bright core pulses on its own rhythm.
+    orbBody.scale.setScalar(1 + Math.sin(t * 0.0016) * 0.06);
+    orbCore.scale.setScalar(1 + Math.sin(t * 0.0026) * 0.12);
 
-    particles.rotation.y += 0.0006;
-    particles.rotation.x += 0.0002;
+    particles.rotation.y += 0.0013;
+    particles.rotation.x += 0.0005;
+    // Whole field gently bobs.
+    particles.position.y = Math.sin(t * 0.0006) * 0.4;
 
-    // Ease camera toward pointer for parallax.
-    camera.position.x += (pointer.x * 0.6 - camera.position.x) * 0.04;
-    camera.position.y += (-pointer.y * 0.4 - camera.position.y) * 0.04;
+    // Ease camera toward pointer for parallax (stronger response).
+    camera.position.x += (pointer.x * 1.0 - camera.position.x) * 0.05;
+    camera.position.y += (-pointer.y * 0.7 - camera.position.y) * 0.05;
     // Drift deeper as the user scrolls past the hero.
     camera.position.z = 6 + scrollProgress * 3;
     orb.position.y = -scrollProgress * 1.5;
