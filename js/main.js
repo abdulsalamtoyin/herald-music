@@ -39,6 +39,7 @@ function renderTracks() {
             : `<span>${initials(t.title)}</span>`
           }
           <span class="play">▶ PLAY</span>
+          <span class="card-glare" aria-hidden="true"></span>
         </div>
         <div class="track-meta">
           <h4 class="track-title">${t.title}</h4>
@@ -47,6 +48,31 @@ function renderTracks() {
       </a>
     </article>
   `).join('');
+}
+
+function wireTilt() {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  document.querySelectorAll('.track-card').forEach((card) => {
+    const glare = card.querySelector('.card-glare');
+    card.addEventListener('pointermove', (e) => {
+      const r = card.getBoundingClientRect();
+      const px = (e.clientX - r.left) / r.width;   // 0..1
+      const py = (e.clientY - r.top) / r.height;   // 0..1
+      const rotY = (px - 0.5) * 12;                // deg
+      const rotX = (0.5 - py) * 12;                // deg
+      card.classList.add('tilting');
+      card.style.transform =
+        `rotateX(${rotX}deg) rotateY(${rotY}deg) translateZ(8px)`;
+      if (glare) {
+        glare.style.setProperty('--gx', `${px * 100}%`);
+        glare.style.setProperty('--gy', `${py * 100}%`);
+      }
+    });
+    card.addEventListener('pointerleave', () => {
+      card.classList.remove('tilting');
+      card.style.transform = '';
+    });
+  });
 }
 
 function tint(i) {
@@ -123,6 +149,7 @@ document.getElementById('year').textContent = new Date().getFullYear();
 // ---------- Init ----------
 document.addEventListener('DOMContentLoaded', () => {
   renderTracks();
+  wireTilt();
   observeReveals();
   wireForm('bookingForm', 'bookingNote', 'Thank you — your inquiry has been received. We will be in touch soon.');
   wireForm('contactForm', 'contactNote', 'Thank you — your message has been received.');

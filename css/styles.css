@@ -703,3 +703,71 @@ p.lead { font-size: 1.1rem; color: var(--text); max-width: 60ch; margin: 0 auto;
   }
   html { scroll-behavior: auto; }
 }
+
+/* ---------- 3D hero canvas layer ---------- */
+.hero-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  z-index: 0;
+  pointer-events: none;
+}
+.hero .hero-bg { z-index: 0; }
+.hero .hero-overlay { z-index: 1; }
+.hero .hero-inner { position: relative; z-index: 2; }
+.hero .scroll-indicator { z-index: 2; }
+
+/* ---------- 3D tilt album cards ---------- */
+.track-grid { perspective: 1000px; }
+.track-card {
+  transform-style: preserve-3d;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  will-change: transform;
+}
+.track-card .track-art {
+  position: relative;
+  overflow: hidden;
+}
+.track-card .card-glare {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    circle at var(--gx, 50%) var(--gy, 50%),
+    rgba(255, 240, 214, 0.35),
+    rgba(255, 240, 214, 0) 55%
+  );
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+.track-card.tilting .card-glare { opacity: 1; }
+
+/* ---------- Depth panels ---------- */
+.pillar,
+.podcast-card,
+.devotional,
+.form-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.pillar:hover,
+.devotional:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 24px 48px -24px rgba(0, 0, 0, 0.7);
+}
+.form-card {
+  backdrop-filter: blur(6px);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .track-card { transition: none; transform: none !important; }
+  .track-card .card-glare { display: none; }
+  .pillar,
+  .podcast-card,
+  .devotional,
+  .form-card { transition: none; }
+  .pillar:hover,
+  .devotional:hover { transform: none; }
+}

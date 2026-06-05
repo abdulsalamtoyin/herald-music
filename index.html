@@ -14,6 +14,13 @@
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="css/styles.css" />
   <link rel="icon" type="image/svg+xml" href="images/favicon.svg" />
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"
+    }
+  }
+  </script>
 </head>
 <body>
   <!-- Header / Navigation -->
@@ -55,6 +62,7 @@
 
   <!-- Hero -->
   <section class="hero" id="top">
+    <canvas class="hero-canvas" id="heroCanvas" aria-hidden="true"></canvas>
     <div class="hero-bg" aria-hidden="true"></div>
     <div class="hero-overlay" aria-hidden="true"></div>
     <div class="container hero-inner">
@@ -93,23 +101,13 @@
         <p class="eyebrow">About</p>
         <h2>A herald with a song in her heart.</h2>
         <p>
-          Faith Abdulsalam is a songwriter and music artiste whose passion is to
-          bring God's messages to life — translating Scripture, prayer and lived
-          testimony into melodies that linger long after the music fades.
+        Faith Abdulsalam is a songwriter, music artiste, and health coach with a passion for inspiring people to live purposefully and care for their bodies through conscious healthy choices. Through Keen Health Australia, she encourages and supports others on their journey toward better health and fulfilled purpose.
+
+
         </p>
         <p>
-          Born in 1984 in Osun State, Nigeria, she now writes and ministers from
-          Queensland, Australia. A B.Tech graduate in Food Science and Technology
-          from LAUTECH, Faith has been writing songs since the age of twelve. She
-          is married to Toyin Abdulsalam and together they are raising three
-          children.
+        Born in 1984 in Osun State, Nigeria, Faith began writing songs at the age of twelve and now writes and ministers from Queensland, Australia. She holds a B.Tech degree in Food Science and Technology from LAUTECH. Faith is married to Toyin Abdulsalam, and together they are blessed with three children.
         </p>
-        <ul class="about-facts">
-          <li><span>Born</span><strong>1984 · Osun State, Nigeria</strong></li>
-          <li><span>Based</span><strong>Queensland, Australia</strong></li>
-          <li><span>Education</span><strong>B.Tech, Food Science — LAUTECH</strong></li>
-          <li><span>Writing since</span><strong>Age 12</strong></li>
-        </ul>
       </div>
     </div>
 
@@ -370,5 +368,6 @@
   </footer>
 
   <script src="js/main.js"></script>
+  <script type="module" src="js/three-scene.js"></script>
 </body>
 </html>
