@@ -29,14 +29,16 @@ function renderTracks() {
     <article class="track-card reveal" style="--i:${i}">
       <a href="${t.spotify}" target="_blank" rel="noopener" aria-label="Listen to ${t.title} on Spotify">
         <div class="track-art" style="background: linear-gradient(135deg, ${tint(i)}, #1a1208);">
+          <span class="track-initials" aria-hidden="true">${initials(t.title)}</span>
           ${t.cover
             ? `<img
                 src="${t.cover}"
                 alt="${t.title} cover art"
-                loading="lazy"
-                onerror="this.style.display='none'"
+                width="600" height="600"
+                loading="lazy" decoding="async"
+                onerror="this.remove()"
                />`
-            : `<span>${initials(t.title)}</span>`
+            : ``
           }
           <span class="play">▶ PLAY</span>
           <span class="card-glare" aria-hidden="true"></span>
@@ -126,20 +128,52 @@ function observeReveals() {
     });
 }
 
-// ---------- Forms (graceful client-side) ----------
-function wireForm(formId, noteId, message) {
+// ---------- Forms (Web3Forms) ----------
+// Get a free access key at https://web3forms.com (enter your email, they send
+// the key). Paste it below — the forms go live the moment this is set.
+const WEB3FORMS_KEY = 'YOUR-WEB3FORMS-ACCESS-KEY';
+const WEB3FORMS_ENDPOINT = 'https://api.web3forms.com/submit';
+
+function wireForm(formId, noteId, message, subject) {
   const form = document.getElementById(formId);
   const note = document.getElementById(noteId);
   if (!form) return;
-  form.addEventListener('submit', (e) => {
+  const submitBtn = form.querySelector('[type="submit"]');
+
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const data = Object.fromEntries(new FormData(form).entries());
-    // No backend wired here — pipe to a service like Formspree, Netlify Forms,
-    // or your own endpoint. For now we just acknowledge in the UI.
-    console.log(`[${formId}] submission:`, data);
-    note.textContent = message;
-    form.reset();
-    setTimeout(() => { note.textContent = ''; }, 6000);
+    if (!form.reportValidity()) return;
+
+    const payload = {
+      ...Object.fromEntries(new FormData(form).entries()),
+      access_key: WEB3FORMS_KEY,
+      subject,
+      from_name: 'The Herald Music website',
+    };
+
+    note.textContent = 'Sending…';
+    if (submitBtn) submitBtn.disabled = true;
+
+    try {
+      const res = await fetch(WEB3FORMS_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      const json = await res.json();
+      if (json.success) {
+        note.textContent = message;
+        form.reset();
+      } else {
+        note.textContent = json.message ||
+          'Something went wrong — please email theheraldmusic1@gmail.com.';
+      }
+    } catch {
+      note.textContent = 'Network error — please email theheraldmusic1@gmail.com.';
+    } finally {
+      if (submitBtn) submitBtn.disabled = false;
+      setTimeout(() => { note.textContent = ''; }, 8000);
+    }
   });
 }
 
@@ -151,7 +185,7 @@ document.addEventListener('DOMContentLoaded', () => {
   renderTracks();
   wireTilt();
   observeReveals();
-  wireForm('bookingForm', 'bookingNote', 'Thank you — your inquiry has been received. We will be in touch soon.');
-  wireForm('contactForm', 'contactNote', 'Thank you — your message has been received.');
+  wireForm('bookingForm', 'bookingNote', 'Thank you — your inquiry has been received. We will be in touch soon.', 'New booking inquiry — The Herald Music');
+  wireForm('contactForm', 'contactNote', 'Thank you — your message has been received.', 'New message — The Herald Music');
 });
 

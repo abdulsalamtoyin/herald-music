@@ -141,7 +141,16 @@
       <div class="section-head">
         <p class="eyebrow">Discography</p>
         <h2>Recent releases</h2>
-        <p class="lead">Ten of the latest songs from The Herald Music. Tap any track to open it on Spotify.</p>
+        <p class="lead">The latest releases from The Herald Music — press play below, or tap any cover to open it on Spotify.</p>
+      </div>
+
+      <div class="spotify-embed">
+        <iframe
+          title="The Herald Music on Spotify"
+          src="https://open.spotify.com/embed/artist/35X6yqB18zfsZ9Jw6TgGFX?utm_source=generator&theme=0"
+          width="100%" height="352" frameborder="0" loading="lazy"
+          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture">
+        </iframe>
       </div>
 
       <div class="track-grid" id="trackGrid">
@@ -241,6 +250,7 @@
       </div>
 
       <form class="form-card" id="bookingForm" novalidate>
+        <input type="checkbox" name="botcheck" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true" />
         <div class="field-row">
           <label>
             <span>Your name</span>
@@ -308,6 +318,7 @@
       </div>
 
       <form class="form-card" id="contactForm" novalidate>
+        <input type="checkbox" name="botcheck" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true" />
         <label>
           <span>Your name</span>
           <input type="text" name="name" required />
