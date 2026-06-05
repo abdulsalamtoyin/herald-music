@@ -822,3 +822,64 @@ p.lead { font-size: 1.1rem; color: var(--text); max-width: 60ch; margin: 0 auto;
   .pillar:hover,
   .devotional:hover { transform: none; }
 }
+
+/* ========================================================================
+   Recent releases — heightened motion
+   Staggered spring-in entrance, cover zoom, sheen sweep, glow + title shift.
+   Effects live on children/pseudo-elements so they never fight the 3D tilt.
+   ======================================================================== */
+
+/* Staggered spring-in. `backwards` fill shows the start frame during the
+   per-card delay but does NOT persist after, so JS tilt transforms still win. */
+.track-card.reveal { opacity: 0; }
+.track-card.reveal.in {
+  opacity: 1;
+  animation: track-pop 0.62s cubic-bezier(.2, .8, .2, 1) backwards;
+  animation-delay: calc(var(--i, 0) * 65ms);
+}
+@keyframes track-pop {
+  from { opacity: 0; transform: translateY(46px) scale(0.94); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Slow cover zoom on hover (clipped by .track-art overflow:hidden). */
+.track-art img {
+  transition: transform 0.6s cubic-bezier(.2, .7, .2, 1);
+}
+.track-card:hover .track-art img { transform: scale(1.09); }
+
+/* A sheen of light sweeps across the cover on hover. */
+.track-art::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background: linear-gradient(115deg,
+    transparent 30%,
+    rgba(255, 240, 214, 0.30) 48%,
+    transparent 66%);
+  transform: translateX(-130%);
+}
+.track-card:hover .track-art::before { animation: sheen-sweep 0.85s ease; }
+@keyframes sheen-sweep { to { transform: translateX(130%); } }
+
+/* Keep the PLAY overlay above the sheen. */
+.track-art .play { z-index: 3; }
+
+/* Title warms to gold and the card gains an accent glow on hover. */
+.track-card .track-title { transition: color var(--transition); }
+.track-card:hover .track-title { color: var(--accent); }
+.track-card:hover {
+  box-shadow:
+    0 30px 60px -28px rgba(0, 0, 0, 0.7),
+    0 0 0 1px var(--accent-soft),
+    0 0 34px -8px rgba(217, 181, 107, 0.4);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .track-card.reveal,
+  .track-card.reveal.in { opacity: 1; animation: none; }
+  .track-art::before { display: none; }
+  .track-card:hover .track-art img { transform: none; }
+}
