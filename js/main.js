@@ -50,6 +50,46 @@ function renderTracks() {
   `).join('');
 }
 
+// ---------- Floating gospel motifs (rising notes + oil lamps) ----------
+const NOTE_GLYPHS = ['♪', '♫', '♬', '♩'];
+// Gold oil lamp — ties to the song "Give Me Oil In My Lamp".
+const LAMP_SVG = `
+<svg class="motif lamp" viewBox="0 0 64 40" width="38" height="24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <ellipse cx="26" cy="28" rx="20" ry="9" fill="rgba(231,196,137,0.18)" stroke="#e7c489" stroke-width="2"/>
+  <path d="M44 26c7-2 13-2 18 1-5 2-11 2-16 2" fill="none" stroke="#e7c489" stroke-width="2" stroke-linecap="round"/>
+  <circle cx="26" cy="19" r="2.4" fill="#e7c489"/>
+  <path d="M62 27c-1-5 1-7 2-9 1 2 3 4 1 7" fill="#ffd9a0"/>
+</svg>`;
+
+function spawnMotifs() {
+  const layer = document.querySelector('.floating-motifs');
+  if (!layer) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  const place = (el, minDur, maxDur) => {
+    const dur = minDur + Math.random() * (maxDur - minDur);
+    el.style.left = `${Math.random() * 100}%`;
+    el.style.setProperty('--sway', `${Math.random() * 90 - 45}px`);
+    el.style.animationDuration = `${dur}s`;
+    el.style.animationDelay = `${-Math.random() * dur}s`;
+    layer.appendChild(el);
+  };
+
+  for (let i = 0; i < 16; i++) {
+    const note = document.createElement('span');
+    note.className = 'motif note';
+    note.textContent = NOTE_GLYPHS[Math.floor(Math.random() * NOTE_GLYPHS.length)];
+    note.style.fontSize = `${1.1 + Math.random() * 1.3}rem`;
+    place(note, 14, 26);
+  }
+  for (let i = 0; i < 6; i++) {
+    const wrap = document.createElement('div');
+    wrap.innerHTML = LAMP_SVG.trim();
+    const lamp = wrap.firstChild;
+    place(lamp, 22, 40);
+  }
+}
+
 function wireTilt() {
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   document.querySelectorAll('.track-card').forEach((card) => {
@@ -150,6 +190,7 @@ document.getElementById('year').textContent = new Date().getFullYear();
 document.addEventListener('DOMContentLoaded', () => {
   renderTracks();
   wireTilt();
+  spawnMotifs();
   observeReveals();
   wireForm('bookingForm', 'bookingNote', 'Thank you — your inquiry has been received. We will be in touch soon.');
   wireForm('contactForm', 'contactNote', 'Thank you — your message has been received.');

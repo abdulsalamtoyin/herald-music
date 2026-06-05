@@ -719,6 +719,44 @@ p.lead { font-size: 1.1rem; color: var(--text); max-width: 60ch; margin: 0 auto;
 .hero .hero-inner { position: relative; z-index: 2; }
 .hero .scroll-indicator { z-index: 2; }
 
+/* ---------- Floating gospel motifs (notes + lamps) ---------- */
+.floating-motifs {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1; /* above canvas/overlay, below hero text (z-index 2) */
+}
+.motif {
+  position: absolute;
+  bottom: -10%;
+  opacity: 0;
+  will-change: transform, opacity;
+  filter: drop-shadow(0 0 8px rgba(201, 139, 78, 0.55));
+}
+.motif.note {
+  color: #e7c489;
+  line-height: 1;
+  animation: motif-rise linear infinite;
+}
+.motif.lamp {
+  display: block;
+  animation: motif-float ease-in-out infinite;
+}
+@keyframes motif-rise {
+  0%   { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0; }
+  12%  { opacity: 0.85; }
+  88%  { opacity: 0.85; }
+  100% { transform: translateY(-118vh) translateX(var(--sway, 30px)) rotate(14deg); opacity: 0; }
+}
+@keyframes motif-float {
+  0%   { transform: translateY(0) translateX(0) rotate(-4deg); opacity: 0; }
+  15%  { opacity: 0.9; }
+  50%  { transform: translateY(-52vh) translateX(var(--sway, 40px)) rotate(4deg); }
+  85%  { opacity: 0.9; }
+  100% { transform: translateY(-104vh) translateX(0) rotate(-2deg); opacity: 0; }
+}
+
 /* ---------- 3D tilt album cards ---------- */
 .track-grid { perspective: 1000px; }
 .track-card {
