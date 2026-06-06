@@ -182,7 +182,7 @@ function wireForm(formId, noteId, message, subject) {
 // Create a free form at https://kit.com → Grow → Forms, then paste its Form ID
 // below. The list goes live the moment this is set. No secret key needed —
 // this is the public form id, safe to ship in a static page.
-const KIT_FORM_ID = 'bb25e3c9de';
+const KIT_FORM_ID = '9530466';
 // Tolerate a full Kit URL being pasted in — use just the trailing id.
 const KIT_ENDPOINT = (id) =>
   `https://app.kit.com/forms/${String(id).replace(/\/+$/, '').split('/').pop()}/subscriptions`;
@@ -217,8 +217,10 @@ function wireNewsletter(formId, noteId) {
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({ email_address: email }),
       });
-      if (res.ok) {
-        note.textContent = 'Thanks! Please check your inbox to confirm your subscription.';
+      // Kit returns HTTP 200 even on failure, so check the JSON status.
+      const data = await res.json().catch(() => ({}));
+      if (res.ok && data.status === 'success') {
+        note.textContent = 'Thanks for subscribing — you’re on the list!';
         form.reset();
       } else {
         note.textContent = NEWSLETTER_FALLBACK;
