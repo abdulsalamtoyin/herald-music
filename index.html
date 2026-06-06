@@ -367,6 +367,21 @@
     </div>
   </section>
 
+  <!-- Newsletter -->
+  <section class="section section-dark newsletter" id="newsletter">
+    <div class="container newsletter-inner">
+      <p class="eyebrow center">Newsletter</p>
+      <h2>Get new releases in your inbox.</h2>
+      <p class="newsletter-copy">Be the first to hear new songs, podcast episodes, and where Faith is ministering next.</p>
+      <form class="newsletter-form" id="newsletterForm" novalidate>
+        <input type="checkbox" name="botcheck" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true" />
+        <input type="email" name="email_address" aria-label="Email address" placeholder="you@email.com" required />
+        <button class="btn btn-primary" type="submit">Subscribe</button>
+      </form>
+      <p class="form-note newsletter-note" id="newsletterNote" aria-live="polite"></p>
+    </div>
+  </section>
+
   <!-- Footer -->
   <footer class="site-footer">
     <div class="container footer-grid">
@@ -376,6 +391,12 @@
           <span class="brand-text">The Herald Music</span>
         </a>
         <p class="footer-tag">…message in melodies. Bringing God's word to life through song.</p>
+        <form class="footer-subscribe" id="footerSubscribe" novalidate>
+          <input type="checkbox" name="botcheck" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true" />
+          <input type="email" name="email_address" aria-label="Email address" placeholder="Your email" required />
+          <button class="btn btn-primary" type="submit">Join</button>
+          <p class="form-note footer-note" id="footerSubscribeNote" aria-live="polite"></p>
+        </form>
       </div>
       <div>
         <h5>Explore</h5>
