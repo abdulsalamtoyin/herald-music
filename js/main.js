@@ -25,7 +25,8 @@ const initials = (s) => {
 function renderTracks() {
   const grid = document.getElementById('trackGrid');
   if (!grid) return;
-  grid.innerHTML = TRACKS.map((t, i) => `
+  // Show newest releases first (sort by year, descending).
+  grid.innerHTML = [...TRACKS].sort((a, b) => Number(b.year) - Number(a.year)).map((t, i) => `
     <article class="track-card reveal" style="--i:${i}">
       <a href="${t.spotify}" target="_blank" rel="noopener" aria-label="Listen to ${t.title} on Spotify">
         <div class="track-art" style="background: linear-gradient(135deg, ${tint(i)}, #1a1208);">

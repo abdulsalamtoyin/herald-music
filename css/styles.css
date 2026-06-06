@@ -480,6 +480,40 @@ p.lead { font-size: 1.1rem; color: var(--text); max-width: 60ch; margin: 0 auto;
   margin-bottom: 0.75rem;
 }
 
+/* ----- Podcast CTAs + series ----- */
+.podcast-cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+.podcast-thumb { cursor: pointer; }
+.podcast-series { margin-top: 3.5rem; }
+.topic-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+.topic-card {
+  background: var(--bg-elev);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: 2rem 1.75rem;
+  text-align: center;
+  transition: transform var(--transition), border-color var(--transition);
+}
+.topic-card:hover { transform: translateY(-4px); border-color: var(--accent-soft); }
+.topic-icon {
+  display: block;
+  font-family: var(--serif);
+  font-size: 1.8rem;
+  color: var(--accent);
+  margin-bottom: 0.75rem;
+}
+.topic-card h4 { margin: 0; }
+@media (max-width: 760px) { .topic-grid { grid-template-columns: 1fr; } }
+
 /* ----- Gallery ----- */
 .gallery-grid {
   display: grid;
