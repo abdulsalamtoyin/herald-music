@@ -56,8 +56,13 @@ Pick per owner priority:
   1200×630 share image so links preview nicely.
 - **SEO structured data** — JSON-LD `MusicGroup`/`Person` with `sameAs`
   (Spotify, YouTube, Instagram, X) for rich results. Add canonical URL.
-- **Newsletter / email capture** — "Get new releases in your inbox"
-  (Mailchimp / ConvertKit / Buttondown) to grow an audience list.
+- **Newsletter / email capture — DONE (needs Form ID).** Signup band above the
+  footer + compact footer field, both wired to Kit (ConvertKit). To activate:
+  1. Create a free account at <https://kit.com> and create a Form.
+  2. Copy the Form's numeric ID.
+  3. In `js/main.js`, set `const KIT_FORM_ID = '<your-id>';`.
+  4. Submit a test email on the live site; confirm it appears in Kit and the
+     confirmation email arrives. Then send releases via Kit → Broadcasts.
 - **Scrollspy** — highlight the active section in the nav on scroll.
 - **Real per-track Spotify links** — most track cards currently point to the
   artist page, not the individual song. Paste real
