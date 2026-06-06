@@ -182,8 +182,10 @@ function wireForm(formId, noteId, message, subject) {
 // Create a free form at https://kit.com → Grow → Forms, then paste its Form ID
 // below. The list goes live the moment this is set. No secret key needed —
 // this is the public form id, safe to ship in a static page.
-const KIT_FORM_ID = 'YOUR-KIT-FORM-ID';
-const KIT_ENDPOINT = (id) => `https://app.kit.com/forms/${id}/subscriptions`;
+const KIT_FORM_ID = 'bb25e3c9de';
+// Tolerate a full Kit URL being pasted in — use just the trailing id.
+const KIT_ENDPOINT = (id) =>
+  `https://app.kit.com/forms/${String(id).replace(/\/+$/, '').split('/').pop()}/subscriptions`;
 
 const NEWSLETTER_FALLBACK =
   'Couldn’t subscribe right now — email theheraldmusic1@gmail.com to be added.';
