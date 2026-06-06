@@ -178,6 +178,58 @@ function wireForm(formId, noteId, message, subject) {
   });
 }
 
+// ---------- Newsletter (Kit / ConvertKit) ----------
+// Create a free form at https://kit.com → Grow → Forms, then paste its Form ID
+// below. The list goes live the moment this is set. No secret key needed —
+// this is the public form id, safe to ship in a static page.
+const KIT_FORM_ID = 'YOUR-KIT-FORM-ID';
+const KIT_ENDPOINT = (id) => `https://app.kit.com/forms/${id}/subscriptions`;
+
+const NEWSLETTER_FALLBACK =
+  'Couldn’t subscribe right now — email theheraldmusic1@gmail.com to be added.';
+
+function wireNewsletter(formId, noteId) {
+  const form = document.getElementById(formId);
+  const note = document.getElementById(noteId);
+  if (!form) return;
+  const submitBtn = form.querySelector('[type="submit"]');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (form.botcheck && form.botcheck.checked) return;   // honeypot: silently ignore bots
+    if (!form.reportValidity()) return;
+
+    if (!KIT_FORM_ID || KIT_FORM_ID === 'YOUR-KIT-FORM-ID') {
+      note.textContent = NEWSLETTER_FALLBACK;
+      setTimeout(() => { note.textContent = ''; }, 8000);
+      return;
+    }
+
+    const email = form.email_address.value.trim();
+    note.textContent = 'Subscribing…';
+    if (submitBtn) submitBtn.disabled = true;
+
+    try {
+      const res = await fetch(KIT_ENDPOINT(KIT_FORM_ID), {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({ email_address: email }),
+      });
+      if (res.ok) {
+        note.textContent = 'Thanks! Please check your inbox to confirm your subscription.';
+        form.reset();
+      } else {
+        note.textContent = NEWSLETTER_FALLBACK;
+      }
+    } catch {
+      note.textContent = NEWSLETTER_FALLBACK;
+    } finally {
+      if (submitBtn) submitBtn.disabled = false;
+      setTimeout(() => { note.textContent = ''; }, 8000);
+    }
+  });
+}
+
 // ---------- Year ----------
 document.getElementById('year').textContent = new Date().getFullYear();
 
@@ -188,5 +240,7 @@ document.addEventListener('DOMContentLoaded', () => {
   observeReveals();
   wireForm('bookingForm', 'bookingNote', 'Thank you — your inquiry has been received. We will be in touch soon.', 'New booking inquiry — The Herald Music');
   wireForm('contactForm', 'contactNote', 'Thank you — your message has been received.', 'New message — The Herald Music');
+  wireNewsletter('newsletterForm', 'newsletterNote');
+  wireNewsletter('footerSubscribe', 'footerSubscribeNote');
 });
 
